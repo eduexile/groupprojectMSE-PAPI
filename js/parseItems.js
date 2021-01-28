@@ -169,7 +169,11 @@ function populate(data)
         tr.appendChild(opt);
 
         opt = document.createElement('td');
-        opt.innerHTML = "<img src='" + DATA.products_munchking[i].image_url + "' width='150' height='150'>";
+        opt.innerHTML = "<a href='searchItem.php?product_id=" + 
+            DATA.products_munchking[i].product_id + "&database=" + 
+            DATA.products_munchking[i].origin + "'><img src='" + 
+            DATA.products_munchking[i].image_url + 
+            "' width='150' height='150'></a>";
         //opt.value = DATA.products_munchking[i].image_url;
         tr.appendChild(opt);
 
