@@ -29,9 +29,9 @@
                 <option value='is_snack'>Snack</option>
             </select>
             <label> Min price: </label>
-            <input type = 'number' onchange = 'limitPrices(this.value, false);'>
+            <input type = 'number' onchange = 'limitPrices(this.value, false);' value = 0>
             <label> Max price: </label>
-            <input type = 'number' onchange = 'limitPrices(this.value, true);'>
+            <input type = 'number' onchange = 'limitPrices(this.value, true);' value = 100000>
             </form>
             <br><br>
         <table id=products>

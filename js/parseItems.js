@@ -2,7 +2,7 @@ var start = 0;
 var amount = 3;
 var searching = "";
 var min_price = 0;
-var max_price = 1000000000;
+var max_price = 100000;
 var is_beer = false;
 var is_snack = false;
 var is_mask = false;
@@ -50,7 +50,8 @@ function performSearchItems(searchString)
     }
     searching = searchString;
     var searchGet = "?search=" + searching + "&mail=" + MSE_Credentials.mail + "&pass=" + 
-                    MSE_Credentials.pass + "&start=" + start + "&amount=" + amount;
+                    MSE_Credentials.pass + "&start=" + start + "&amount=" + amount + 
+                    "&min_price=" + min_price + "&max_price=" + max_price;
 
     var url_munchking = URLS.munchking_items + searchGet + "&is_snack=" + is_snack;
     var url_masks = URLS.masks_items + searchGet + "&is_mask=" + is_mask;
