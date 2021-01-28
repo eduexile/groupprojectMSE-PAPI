@@ -1,9 +1,15 @@
 var start = 0;
 var amount = 3;
 var searching = "";
+var min_price = 0;
+var max_price = 1000000000;
+var is_beer = false;
+var is_snack = false;
+var is_mask = false;
+var expected_responses = 3;
 
 var	URLS = {
-    // https://apijveron20.000webhostapp.com/API/Practica2/search_get_json_items.php?search=&mail=Bot_101@101server.com&pass=101&start=1&amount=5
+    // https://apijveron20.000webhostapp.com/API/Practica2/search_get_json_items.php?search=&mail=Bot_101@101server.com&pass=101&start=1&amount=5&is_snack=true
     munchking_items: "https://apijveron20.000webhostapp.com/API/Practica2/search_get_json_items.php",
     // https://apiecebollero20.000webhostapp.com/PAPI/Practica2/getItemsAsJson.php?search=&mail=Bot_101@101server.com&pass=101&start=1&amount=5
     masks_items: "https://apiecebollero20.000webhostapp.com/PAPI/Practica2/getItemsAsJson.php",
@@ -43,55 +49,65 @@ function performSearchItems(searchString)
         start = 0;
     }
     searching = searchString;
-    var searchGet = "?search=" + searching + "&mail=" + MSE_Credentials.mail + "&pass=" + MSE_Credentials.pass + "&start=" + start + "&amount=" + amount;
+    var searchGet = "?search=" + searching + "&mail=" + MSE_Credentials.mail + "&pass=" + 
+                    MSE_Credentials.pass + "&start=" + start + "&amount=" + amount;
 
-    var url_munchking = URLS.munchking_items + searchGet;
-    var url_masks = URLS.masks_items + searchGet;
-    var url_drinks = URLS.drinks_items + searchGet;
+    var url_munchking = URLS.munchking_items + searchGet + "&is_snack=" + is_snack;
+    var url_masks = URLS.masks_items + searchGet + "&is_mask=" + is_mask;
+    var url_drinks = URLS.drinks_items + searchGet + "&is_beer=" + is_beer;
 
     var responses = [];
 
-    var xhttpMunchking = new XMLHttpRequest();
-    xhttpMunchking.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            responses.push(this.responseText);
-            if (responses.length == 3)
+    if (!is_mask && !is_beer)
+    {
+        var xhttpMunchking = new XMLHttpRequest();
+        xhttpMunchking.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) 
             {
-                printNewItems(responses);
+                responses.push(this.responseText);
+                if (responses.length >= expected_responses)
+                {
+                    printNewItems(responses);
+                }
             }
         }
+        xhttpMunchking.open('GET', url_munchking, true);
+        xhttpMunchking.send();
     }
-    xhttpMunchking.open('GET', url_munchking, true);
-    xhttpMunchking.send();
 
-    var xhttpMasks = new XMLHttpRequest();
-    xhttpMasks.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            responses.push(this.responseText);
-            if (responses.length == 3)
+    if (!is_snack && !is_beer)
+    {
+        var xhttpMasks = new XMLHttpRequest();
+        xhttpMasks.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) 
             {
-                printNewItems(responses);
+                responses.push(this.responseText);
+                if (responses.length >= expected_responses)
+                {
+                    printNewItems(responses);
+                }
             }
         }
+        xhttpMasks.open('GET', url_masks, true);
+        xhttpMasks.send();
     }
-    xhttpMasks.open('GET', url_masks, true);
-    xhttpMasks.send();
     
-    var xhttpDrinks = new XMLHttpRequest();
-    xhttpDrinks.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            responses.push(this.responseText);
-            if (responses.length == 3)
+    if (!is_snack && !is_mask)
+    {
+        var xhttpDrinks = new XMLHttpRequest();
+        xhttpDrinks.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) 
             {
-                printNewItems(responses);
+                responses.push(this.responseText);
+                if (responses.length >= expected_responses)
+                {
+                    printNewItems(responses);
+                }
             }
         }
+        xhttpDrinks.open('GET', url_drinks, true);
+        xhttpDrinks.send();
     }
-    xhttpDrinks.open('GET', url_drinks, true);
-    xhttpDrinks.send();
 }
 
 function printNewItems(responses)
@@ -100,9 +116,10 @@ function printNewItems(responses)
     generateTableIndexes();
 
     // print
-    populate(responses[0]);
-    populate(responses[1]);
-    populate(responses[2]);
+    for (var i = 0; i < responses.length; ++i) 
+    {
+        populate(responses[i]);
+    }
 }
 
 function generateTableIndexes()
@@ -158,4 +175,46 @@ function populate(data)
 
         sel.appendChild(tr);
     }
+}
+
+function performFilter(filter)
+{
+    is_beer = false;
+    is_snack = false;
+    is_mask = false;
+    expected_responses = 3;
+
+    if (filter == 'is_beer')
+    {
+        expected_responses = 1;
+        is_beer = true;
+    }
+    else if (filter == 'is_snack')
+    {
+        expected_responses = 1;
+        is_snack = true;
+    }
+    else if (filter == 'is_mask')
+    {
+        expected_responses = 1;
+        is_mask = true;
+    }
+
+    start = 0;
+    performSearchItems(searching);
+}
+
+function limitPrices(num, is_max)
+{
+    if(is_max)
+    {
+        max_price = num;
+    }
+    else
+    {
+        min_price = num;
+    }
+
+    start = 0;
+    performSearchItems(searching);
 }
