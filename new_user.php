@@ -24,7 +24,6 @@
 			header("Location: $server_base_url");
 
 		}
-		
 	}
 
 	if ($proceed)
@@ -38,15 +37,20 @@
 			$user = getUserByEmail($mysqli, $_SESSION['email']);
 
 			//$html_text.= "<a href='".$_SESSION['emailcode']."'>{$_SESSION['emailcode']}</a><br>";
-			sendActivationEmail($user["email"], $user["name"], $_SESSION['emailcode'], $server_base_url);
-
-			$html_text.= "Email sent again!<br><br>
-			<p> Register completed! A confirmation has been sent to your email. <br><br>
+			if (sendActivationEmail($user["email"], $user["name"], $_SESSION['emailcode'], $server_base_url))
+			{
+				$html_text.= "Email sent again!<br><br>
+					<p> Register completed! A confirmation has been sent to your email. <br><br>
 					Please: before login in, check your email and click on the link we sent you for activating your account. </p> <br><br>
 
-						<form method = 'post' action = 'new_user.php'>
-							<input type = 'submit' name=resent value='Re-send email'>
-						</form>";
+					<form method = 'post' action = 'new_user.php'>
+						<input type = 'submit' name=resent value='Re-send email'>
+					</form>";
+			}
+			else
+			{
+				$html_text.= "<a href='".$email_url."'>Activation</a>";
+			}
 		}
 		else
 		{
@@ -74,14 +78,20 @@
 						$_SESSION['email'] = $_POST['email'];
 
 						//$html_text.= "<a href='".$email_url."'>{$email_url}</a><br>";
-						sendActivationEmail($user["email"], $user["name"], $email_url, $server_base_url);
-
-						$html_text.= "<p> Register completed! A confirmation has been sent to your email. <br><br>
-						Please: before login in, check your email and click on the link we sent you for activating your account. </p> <br><br>
+						if(sendActivationEmail($user["email"], $user["name"], $email_url, $server_base_url))
+						{
+							$html_text.= "<p> Register completed! A confirmation has been sent to your email. <br><br>
+							Please: before login in, check your email and click on the link we sent you for activating your account. </p> <br><br>
 
 							<form method = 'post' action = 'new_user.php'>
 								<input type = 'submit' name=resent value='Re-send email'>
 							</form>";
+						}
+						else
+						{
+							$html_text.= "<a href='".$email_url."'>Activation</a>";
+						}
+						
 					}
 					else
 					{

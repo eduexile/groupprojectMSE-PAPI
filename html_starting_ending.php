@@ -25,10 +25,6 @@
 						<form method = 'post' action = 'login.php'>
 							<input type = 'submit' value = 'LOG IN'>
 						</form><br>
-						<label> Don't you remember your password? </label>
-						<form method = 'post' action = 'forgot_password.php'>
-							<input type = 'submit' value = 'Forgot Password'>
-						</form><br>
 						<label> New here? </label>
 						<form method = 'post' action = 'new_user.php'>
 							<input type = 'submit' value = 'REGISTER NOW!'>

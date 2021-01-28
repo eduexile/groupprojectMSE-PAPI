@@ -1,17 +1,16 @@
 
 var	URLS = {
-    // http://localhost/API/Practica2/search_get_json_items.php?product_id=5
     munchking_item: "https://apijveron20.000webhostapp.com/API/Practica2/search_get_json_items.php",
 
     masks_item: "https://apiecebollero20.000webhostapp.com/PAPI/Practica2/getItemsAsJson.php",
 
-    drinks_item: "http://apijchueca202.000webhostapp.com/IA2_JorgeChueca/getItemAsJSON.php",
+    drinks_item: "https://apijchueca202.000webhostapp.com/IA2_JorgeChueca/getItemAsJSON.php",
 
     munchking_add: "https://apijveron20.000webhostapp.com/API/Practica2/update_json_items.php",
 
     masks_add: "https://apiecebollero20.000webhostapp.com/PAPI/Practica2/updateItemsAsJson.php",
 
-    drinks_add: "http://apijchueca202.000webhostapp.com/IA2_JorgeChueca/updateItemAsJSON.php"
+    drinks_add: "https://apijchueca202.000webhostapp.com/IA2_JorgeChueca/updateItemAsJSON.php"
 }
 
 var DATA = {

@@ -1,38 +1,34 @@
 <?php
 
-session_start();
+    require_once('crud_user.php');
+    require_once('crud_session.php');
 
-$html = "
-<!DOCTYPE html>
-<html>
+    session_start();
 
-    <head>
-        <title>Metasearch Engine</title>
-    </head>
+    if (isset($_SESSION['login']))
+    {
+        if (getSessionByID($mysqli, $_SESSION['login']))
+        {
+            $session_id = $_SESSION['login'];
+            $user_id = getSessionByID($mysqli, $_SESSION['login'])["user_id"];
+            deleteSessionByID($mysqli, $session_id);
+            $session_id = insertSession($mysqli, $user_id);
+            $_SESSION['login'] = $session_id;
 
-    <body>
-    <h1>METASEARCH ENGINE</h1>
-    <h2> <a href = \"userRegistration.php\">Register</a></h2>
-    <h2> <a href = \"userLogin.php\">Login</a></h2>
-    <h2> <a href = \"searchItems.php\"> SEARCH</a></h2>
-    <h2> <a href = \"viewOrders.php\"> VIEW ORDERS</a></h2>
-    <h2> <a href = \"viewFilterProducts.php\"> FILTER PRODUCTS</a></h2>
+            $nextPage = $server_base_url."searchItems.php";
+            header("Location: $nextPage");
 
-    <h2> <a href = \"GA.pdf\">ENUNCIADO DE LA PRACTIQUISIMA</a></h2>";
-
-    // if(isset($_SESSION['login']) && isset($_COOKIE['login']))
-    // {
-    //     if($_COOKIE['login'] == 1)
-    //     {
-    //         $html .= "<h2> <a href = \"userLogout.php\"> > Log Out</a></h2>";
-    //     }
-    // }
-
-
-$html .= "</body>
-</html>
-";
-
-echo $html;
+        }
+        else
+        {
+            $nextPage = $server_base_url."logout.php";
+            header("Location: $nextPage");
+        }
+        
+    }
+    else
+    {
+        header("Location: login.php");
+    }
 
 ?>

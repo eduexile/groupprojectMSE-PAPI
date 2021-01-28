@@ -2,8 +2,8 @@
 
 	require_once('html_starting_ending.php');
 
-	$server_base_url = "http://localhost/API/Practica2/"; // local debug
-	//$server_base_url = "https://apijveron20.000webhostapp.com/API/Practica2/"; // server release
+	//$server_base_url = "http://localhost/API/Practica2/"; // local debug
+	$server_base_url = "https://apijveron20.000webhostapp.com/API/groupprojectMSE-PAPI/"; // server release
 
 	$server_name = "localhost";
 	$user_name = "id14932037_mse_admin";

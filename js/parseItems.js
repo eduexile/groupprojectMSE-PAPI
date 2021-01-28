@@ -14,14 +14,12 @@ var	URLS = {
     // https://apiecebollero20.000webhostapp.com/PAPI/Practica2/getItemsAsJson.php?search=&mail=Bot_101@101server.com&pass=101&start=1&amount=5
     masks_items: "https://apiecebollero20.000webhostapp.com/PAPI/Practica2/getItemsAsJson.php",
     // http://apijchueca202.000webhostapp.com/IA2_JorgeChueca/getItemsAsJSON.php?search=&mail=jchueca96@gmail.com&pass=asdf&start=0&amount=10
-    drinks_items: "http://apijchueca202.000webhostapp.com/IA2_JorgeChueca/getItemsAsJSON.php"
+    drinks_items: "https://apijchueca202.000webhostapp.com/IA2_JorgeChueca/getItemsAsJSON.php"
 }
 
 var DATA = {
     table_elements : ["Name", "Quantity", "Price", "Image"],
-    products_munchking : [],
-    products_masks : [],
-    products_drinks : []
+    products : []
 }
 
 var MSE_Credentials = {
@@ -147,35 +145,35 @@ function populate(data)
     {
         return;
     }
-    DATA.products_munchking = JSON.parse(data);
+    DATA.products = JSON.parse(data);
 
     var sel = document.getElementById('products');
-    for(var i = 0; i < DATA.products_munchking.length; ++i)
+    for(var i = 0; i < DATA.products.length; ++i)
     {
         var tr = document.createElement('tr');
 
         var opt = document.createElement('td');
-        opt.innerHTML = DATA.products_munchking[i].name;
-        //opt.value = DATA.products_munchking[i].name;
+        opt.innerHTML = DATA.products[i].name;
+        //opt.value = DATA.products[i].name;
         tr.appendChild(opt);
 
         opt = document.createElement('td');
-        opt.innerHTML = DATA.products_munchking[i].quantity;
-        //opt.value = DATA.products_munchking[i].quantity;
+        opt.innerHTML = DATA.products[i].quantity;
+        //opt.value = DATA.products[i].quantity;
         tr.appendChild(opt);
 
         opt = document.createElement('td');
-        opt.innerHTML = DATA.products_munchking[i].price + " €";
-        //opt.value = DATA.products_munchking[i].price;
+        opt.innerHTML = DATA.products[i].price + " €";
+        //opt.value = DATA.products[i].price;
         tr.appendChild(opt);
 
         opt = document.createElement('td');
         opt.innerHTML = "<a href='searchItem.php?product_id=" + 
-            DATA.products_munchking[i].product_id + "&database=" + 
-            DATA.products_munchking[i].origin + "'><img src='" + 
-            DATA.products_munchking[i].image_url + 
+            DATA.products[i].product_id + "&database=" + 
+            DATA.products[i].origin + "'><img src='" + 
+            DATA.products[i].image_url + 
             "' width='150' height='150'></a>";
-        //opt.value = DATA.products_munchking[i].image_url;
+        //opt.value = DATA.products[i].image_url;
         tr.appendChild(opt);
 
         sel.appendChild(tr);
