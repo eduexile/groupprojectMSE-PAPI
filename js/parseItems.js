@@ -22,47 +22,66 @@ var MSE_Credentials = {
 
 function performSearchItems(searchString, start, amount)
 {
-console.log(searchString);
-console.log(start);
-console.log(amount);
-
     var searchGet = "?search=" + searchString + "&mail=" + MSE_Credentials.mail + "&pass=" + MSE_Credentials.pass + "&start=" + start + "&amount=" + amount;
 
     var url_munchking = URLS.munchking_items + searchGet;
     var url_masks = URLS.masks_items + searchGet;
     var url_drinks = URLS.drinks_items + searchGet;
 
+    var responses = [];
+
+    var xhttpMunchking = new XMLHttpRequest();
+    xhttpMunchking.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            responses.push(this.responseText);
+            if (responses.length == 3)
+            {
+                printNewItems(responses);
+            }
+        }
+    }
+    xhttpMunchking.open('GET', url_munchking, true);
+    xhttpMunchking.send();
+
+    var xhttpMasks = new XMLHttpRequest();
+    xhttpMasks.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            responses.push(this.responseText);
+            if (responses.length == 3)
+            {
+                printNewItems(responses);
+            }
+        }
+    }
+    xhttpMasks.open('GET', url_masks, true);
+    xhttpMasks.send();
+    
+    var xhttpDrinks = new XMLHttpRequest();
+    xhttpDrinks.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            responses.push(this.responseText);
+            if (responses.length == 3)
+            {
+                printNewItems(responses);
+            }
+        }
+    }
+    xhttpDrinks.open('GET', url_drinks, true);
+    xhttpDrinks.send();
+}
+
+function printNewItems(responses)
+{
+    // cls
     generateTableIndexes();
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            populate(this.responseText);
-        }
-    }
-    xhttp.open('GET', url_munchking, true);
-    xhttp.send();
-
-    xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            populate(this.responseText);
-        }
-    }
-    xhttp.open('GET', url_masks, true);
-    xhttp.send();
-
-    xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            populate(this.responseText);
-        }
-    }
-    xhttp.open('GET', url_drinks, true);
-    xhttp.send();
+    // print
+    populate(responses[0]);
+    populate(responses[1]);
+    populate(responses[2]);
 }
 
 function generateTableIndexes()
