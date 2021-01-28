@@ -11,8 +11,8 @@
             <script src = 'js/parseItems.js'></script>
 
             <body>
-            <a href=''><h1>SEARCH ITEMS</h1><a>
-            <h3><a href = \"MSE.php\"> > HOME</a></h3>
+            <a href=''><h1>SEARCH ITEMS</h1></a>
+            <h3><a href = \"index.php\"> > HOME</a></h3>
             <form id = 'searchForm' method = 'post' action = ''>
                 <label> Search: </label> <br>
                 <input type = 'text' id = 'searchingText' oninput = 'performSearchItems(this.value);'>

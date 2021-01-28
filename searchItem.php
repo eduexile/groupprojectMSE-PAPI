@@ -14,12 +14,15 @@
 
                 <body>
                 <a id=title href=''><h1>ITEM DETAILS</h1><a>
-                <h3><a href = \"MSE.php\"> > HOME</a></h3>
+                <h3><a href = \"index.php\"> > HOME</a></h3>
                 <br><br>
             <table id=product>
             </table>
             <br><br>
-            <button id=buyButton type=button>Buy</button>
+            <form id = 'searchForm' method = 'post' action = ''>
+                <input type = 'number' id = 'unities' value = 1>
+            </form>
+            <button id=buyButton type=button onclick='addToCart({$_GET['product_id']}, \"{$_GET['database']}\");'>Add to cart</button>
             <br><br>
             </body>
         </html>";
