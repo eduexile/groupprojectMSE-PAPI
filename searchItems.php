@@ -1,5 +1,22 @@
 <?php
 
+    if (isset($_GET['start']))
+    {
+        $start = $_GET['start'];
+    }
+    else
+    {
+        $start = 0;
+    }
+    if (isset($_GET['amount']))
+    {
+        $amount = $_GET['amount'];
+    }
+    else
+    {
+        $amount = 1;
+    }
+
     $html = "
         <!DOCTYPE html>
         <html>
@@ -16,7 +33,7 @@
 
             <form method = 'post' action = ''>
                 <label> Search: </label> <br>
-                    <input type = 'text' oninput = 'performSearchItems(this.value);'>
+                <input type = 'text' oninput = 'performSearchItems(this.value, {$start}, {$amount});'>
             </form>
             <br></br>
             
@@ -29,5 +46,5 @@
 
     echo $html;
 
-    echo "<script type = 'text/javascript'> performSearchItems(''); </script>  ";
+    echo "<script type = 'text/javascript'> performSearchItems('', {$start}, {$amount}); </script>  ";
 ?>
