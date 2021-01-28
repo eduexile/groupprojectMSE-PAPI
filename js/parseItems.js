@@ -1,3 +1,6 @@
+var start = 0;
+var amount = 3;
+var searching = "";
 
 var	URLS = {
     // https://apijveron20.000webhostapp.com/API/Practica2/search_get_json_items.php?search=&mail=Bot_101@101server.com&pass=101&start=1&amount=5
@@ -20,9 +23,27 @@ var MSE_Credentials = {
     pass: "101"
 }
 
-function performSearchItems(searchString, start, amount)
+function changePage(next = false)
 {
-    var searchGet = "?search=" + searchString + "&mail=" + MSE_Credentials.mail + "&pass=" + MSE_Credentials.pass + "&start=" + start + "&amount=" + amount;
+    if (next)
+    {
+        start += amount;
+    }
+    else
+    {
+        start = Math.max(start - amount, 0);
+    }
+    performSearchItems(searching);
+}
+
+function performSearchItems(searchString)
+{
+    if (searching != searchString)
+    {
+        start = 0;
+    }
+    searching = searchString;
+    var searchGet = "?search=" + searching + "&mail=" + MSE_Credentials.mail + "&pass=" + MSE_Credentials.pass + "&start=" + start + "&amount=" + amount;
 
     var url_munchking = URLS.munchking_items + searchGet;
     var url_masks = URLS.masks_items + searchGet;

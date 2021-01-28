@@ -1,22 +1,5 @@
 <?php
 
-    if (isset($_GET['start']))
-    {
-        $start = $_GET['start'];
-    }
-    else
-    {
-        $start = 0;
-    }
-    if (isset($_GET['amount']))
-    {
-        $amount = $_GET['amount'];
-    }
-    else
-    {
-        $amount = 1;
-    }
-
     $html = "
         <!DOCTYPE html>
         <html>
@@ -31,20 +14,26 @@
             <h1>SEARCH ITEMS</h1>
             <h3><a href = \"MSE.php\"> > HOME</a></h3>
 
-            <form method = 'post' action = ''>
+            <form id = 'searchForm' method = 'post' action = ''>
                 <label> Search: </label> <br>
-                <input type = 'text' oninput = 'performSearchItems(this.value, {$start}, {$amount});'>
+                <input type = 'text' id = 'searchingText' oninput = 'performSearchItems(this.value);'>
             </form>
-            <br></br>
-            
-            <table id=products>
-            </table>";
+            <form id = 'searchForm' method = 'post' action = ''>
+                <label> Search: </label> <br>
+                <input type = 'text' id = 'searchingText' oninput = 'performSearchItems(this.value);'>
+            </form>";
 
-        $html .= "</body>
-        </html>
-        ";
+    $html.= "<button type='button' onclick='changePage();'>Previous Page </button>";
+    $html.= "<button type='button' name='nextButton' onclick='changePage(true);'>Next Page </button>
+            <br><br>
+        <table id=products>
+        </table>
+        <br><br>
+        </body>
+    </html>";
 
     echo $html;
 
-    echo "<script type = 'text/javascript'> performSearchItems('', {$start}, {$amount}); </script>  ";
+    echo "<script type = 'text/javascript'> performSearchItems(''); </script>";
+
 ?>
