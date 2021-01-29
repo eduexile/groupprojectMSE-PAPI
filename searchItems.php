@@ -52,9 +52,9 @@
                 <table id=products>
                 </table>
                 <br><br>
-                <h2> <a href = \"searchItems.php\"> SEARCH</a></h2>
+                <h2> <a href = \"buyProducts.php\"> BUY PRODUCTS IN CART</a></h2>
                 <h2> <a href = \"searchOrders.php\"> VIEW ORDERS</a></h2>
-                <h2> <a href = \"GA.pdf\" target='_blank'>ENUNCIADO DE LA PRACTIQUISIMA</a></h2>
+                <h2> <a href = \"GA.pdf\" target='_blank'>EXPLANATION OF PRACTICE</a></h2>
 
                 <h2> <a href = \"logout.php\">LOG OUT</a></h2>
                 </body>

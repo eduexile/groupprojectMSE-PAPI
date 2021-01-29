@@ -6,11 +6,11 @@ var	URLS = {
 
     drinks_item: "https://apijchueca202.000webhostapp.com/IA2_JorgeChueca/getItemAsJSON.php",
 
-    munchking_add: "https://apijveron20.000webhostapp.com/API/Practica2/update_json_items.php",
+    munchking_add: "https://apijveron20.000webhostapp.com/API/Practica2/reduce_stock_json.php",
 
-    masks_add: "https://apiecebollero20.000webhostapp.com/PAPI/Practica2/updateItemsAsJson.php",
+    masks_add: "https://apiecebollero20.000webhostapp.com/PAPI/Practica2/reduceStockAsJson.php",
 
-    drinks_add: "https://apijchueca202.000webhostapp.com/IA2_JorgeChueca/updateItemAsJSON.php"
+    drinks_add: "https://apijchueca202.000webhostapp.com/IA2_JorgeChueca/reduceStockJSON.php"
 }
 
 var DATA = {
@@ -119,8 +119,11 @@ function populate(data)
 
 function addToCart(product_id, database)
 {
+    var quantity = document.getElementById('unities').value;
+
 	var url = "?mail=" + MSE_Credentials.mail + "&pass=" + 
-                    MSE_Credentials.pass + "&product_id=" + product_id;
+                    MSE_Credentials.pass + "&product_id=" + product_id +
+                    "&quantity=" + quantity;
 	if (database == 'munchking')
 	{
 		url = URLS.munchking_add + url;
@@ -143,11 +146,18 @@ function addToCart(product_id, database)
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) 
         {
-        	DATA.product.quantity = this.responseText;
+        	var response = this.responseText;
+            console.log(response);
+            var success = JSON.parse(response);
+
             var button = document.getElementById('buyButton');
     		button.innerHTML="Add to cart (" + DATA.product.quantity + " left)";
-    		// TODO: crear sesion para carro
-    		
+
+            if (success.success == 'true')
+            {
+                var newUrl = "addToCart.php?product_id=" + product_id + "&quantity=" + quantity + "&origin=" + database;
+                window.location.replace(newUrl);
+            }
         }
     }
     xhttp.open('GET', url, true);
