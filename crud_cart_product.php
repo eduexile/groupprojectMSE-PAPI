@@ -125,8 +125,20 @@
 
 	function deleteCartProductByID($mysqli, int $cart_product_id)
 	{
-		$existingProduct = getCartProductByID($mysqli, $cart_product_id);
 		$queryDelete = "DELETE FROM cart_product WHERE cart_product_id={$cart_product_id}";
+		$result = $mysqli->query($queryDelete);
+
+		if (!$result)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	function deleteCartProductByUserID($mysqli, int $user_id)
+	{
+		$queryDelete = "DELETE FROM cart_product WHERE user_id={$user_id}";
 		$result = $mysqli->query($queryDelete);
 
 		if (!$result)

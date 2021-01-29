@@ -2,6 +2,7 @@
 
     require_once('crud_user.php');
     require_once('crud_session.php');
+    require_once('crud_cart_product.php');
 
     session_start();
 
@@ -16,6 +17,11 @@
             $_SESSION['login'] = $session_id;
 
             $user = getUserByID($mysqli, $user_id);
+
+            if (isset($_GET['clear_cart']) && $_GET['clear_cart'] == 'true')
+            {
+                deleteCartProductByUserID($mysqli, $user['user_id']);
+            }
 
             $html = "
                 <!DOCTYPE html>

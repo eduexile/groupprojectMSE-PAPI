@@ -39,7 +39,8 @@
 
                 for ($i = 0; $i < $totalItems; ++$i) 
                 { 
-                    $html.= "<script type = 'text/javascript'> 'performBuyItems('{$user['email']}', '{$cart_products[$i]['product_id']}', '{$cart_products[$i]['origin']}', {$cart_products[$i]['quantity']}, '{$_POST['address']}', {$i}, {$totalItems});' </script>";
+                    $html.= "<script type = 'text/javascript'> 
+                    performBuyItems('{$user['email']}', {$cart_products[$i]['product_id']}, '{$cart_products[$i]['origin']}', {$cart_products[$i]['quantity']}, '{$_POST['address']}', {$i}, {$totalItems}); </script>";
                 }
 
                 $html.= "</body></html>";

@@ -1,3 +1,4 @@
+var fullyReady = true;
 
 var	URLS = {
     munchking_buy: "https://apijveron20.000webhostapp.com/API/Practica2/create_order_json.php",
@@ -14,6 +15,11 @@ var MSE_Credentials = {
 
 function performBuyItems(user_email, product_id, origin, quantity, address, cart_index, cart_count)
 {
+	if (cart_index == 0)
+	{
+		fullyReady = true;
+	}
+
 	var url = "?mail=" + MSE_Credentials.mail + "&pass=" + 
                     MSE_Credentials.pass + "&product_id=" + product_id
                     + "&quantity=" + quantity + "&user_email=" + user_email + "&address=" + address;
@@ -42,18 +48,24 @@ function performBuyItems(user_email, product_id, origin, quantity, address, cart
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) 
         {
-            var response = JSON.parse(this.responseText);
-            if (response.ordered != 'true')
+            var responseIA = JSON.parse(this.responseText);
+            if (responseIA.ordered != 'true')
             {
             	var createOrderXhttp = new XMLHttpRequest();
 			    createOrderXhttp.onreadystatechange = function() {
 			        if (this.readyState == 4 && this.status == 200) 
 			        {
-			            console.log("successful GA");
-			        }
-			        else
-			        {
-			            console.log("wrong");
+			        	console.log(this.responseText);
+			        	var responseGA = JSON.parse(this.responseText);
+			        	if (responseGA.ordered == 'true')
+            			{
+			            	console.log("successful GA(" + this.responseText + "): " + createOrderPhp);
+			        	}
+			        	else
+				        {
+				            console.log("wrong(" + responseIA.error + "): " + url);
+				        }
+				        fullyReady = fullyReady & responseGA.ordered;
 			        }
 			    }
 			    createOrderXhttp.open('GET', createOrderPhp, true);
@@ -61,16 +73,23 @@ function performBuyItems(user_email, product_id, origin, quantity, address, cart
             }
             else
             {
-            	console.log("successful IA");
+            	console.log("successful IA (" + this.responseText + "): " + url);
             }
 
             if (cart_index == cart_count - 1)
 			{
-				// Change page
-				window.location.href = "searchOrders.php";
+				if (fullyReady)
+				{
+					// Change page
+					window.location.href = "searchOrders.php?clear_cart=true";
+				}
 			}
         }
     }
     xhttp.open('GET', url, true);
     xhttp.send();
+
+	console.log("Entered " + (cart_index+1) + " times.");
+
+	return;
 }

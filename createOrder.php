@@ -2,7 +2,6 @@
 
     require_once('crud_user.php');
     require_once('crud_session.php');
-    require_once('crud_direction.php');
     require_once('crud_ordered.php');
 
     session_start();
@@ -24,7 +23,14 @@
 		        header('content-type: application/json; charset=utf-8');
 		        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 		        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-		        echo (insertOrder($mysqli, $_GET['quantity'], $user_id, $_GET['address'], $_GET['product_id'], $_GET['origin']));
+                if (insertOrder($mysqli, $_GET['quantity'], $user_id, $_GET['address'], $_GET['product_id'], $_GET['origin']))
+                {
+                    echo '{"ordered":"true"}';
+                }
+                else
+                {
+                    echo '{"ordered":"false", "error":"{'.$mysqli->error.'}"}';
+                }
             }
         }
     }
