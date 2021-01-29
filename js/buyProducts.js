@@ -48,6 +48,7 @@ function performBuyItems(user_email, product_id, origin, quantity, address, cart
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) 
         {
+        	console.log(url);
             var responseIA = JSON.parse(this.responseText);
             if (responseIA.ordered != 'true')
             {
