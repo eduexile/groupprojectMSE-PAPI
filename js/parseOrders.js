@@ -1,4 +1,4 @@
-var expected_responses = 1;
+var expected_responses = 4;
 
 var	URLS = {
     // https://apijveron20.000webhostapp.com/API/Practica2/search_get_json_items.php?search=&mail=Bot_101@101server.com&pass=101&start=1&amount=5&is_snack=true
@@ -27,6 +27,7 @@ function performGetOrders(email)
     var url_munchking = URLS.munchking_items + ordersGet;
     var url_masks = URLS.masks_items + ordersGet;
     var url_drinks = URLS.drinks_items + ordersGet;
+    var url_mse = "search_get_json_orders.php" + ordersGet;
 
     var responses = [];
 
@@ -71,6 +72,20 @@ function performGetOrders(email)
     }
     xhttpDrinks.open('GET', url_drinks, true);
     xhttpDrinks.send();
+
+    var xhttpMSE = new XMLHttpRequest();
+    xhttpMSE.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            responses.push(this.responseText);
+            if (responses.length >= expected_responses)
+            {
+                printNewOrders(responses);
+            }
+        }
+    }
+    xhttpMSE.open('GET', url_mse, true);
+    xhttpMSE.send();
 }
 
 function printNewOrders(responses)
@@ -109,7 +124,7 @@ function populate(data)
     {
         return;
     }
-    
+    console.log(data);
     DATA.orders = JSON.parse(data);
 
     var sel = document.getElementById('orders');
@@ -136,46 +151,4 @@ function populate(data)
 
         sel.appendChild(tr);
     }
-}
-
-function performFilter(filter)
-{
-    is_beer = false;
-    is_snack = false;
-    is_mask = false;
-    expected_responses = 3;
-
-    if (filter == 'is_beer')
-    {
-        expected_responses = 1;
-        is_beer = true;
-    }
-    else if (filter == 'is_snack')
-    {
-        expected_responses = 1;
-        is_snack = true;
-    }
-    else if (filter == 'is_mask')
-    {
-        expected_responses = 1;
-        is_mask = true;
-    }
-
-    start = 0;
-    performSearchItems(searching);
-}
-
-function limitPrices(num, is_max)
-{
-    if(is_max)
-    {
-        max_price = num;
-    }
-    else
-    {
-        min_price = num;
-    }
-
-    start = 0;
-    performSearchItems(searching);
 }

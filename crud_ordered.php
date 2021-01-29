@@ -80,10 +80,10 @@
 		return $result->fetch_array(MYSQLI_ASSOC);
 	}
 
-	function insertOrder($mysqli, int $quantity, int $user_id, int $direction_id, int $product_id, $origin)
+	function insertOrder($mysqli, int $quantity, int $user_id, $direction, int $product_id, $origin)
 	{
 		$current_date = date('Y-m-d');
-		$queryInsert = "INSERT INTO ordered(date, quantity, user_id, direction_id, product_id, origin) VALUES ('{$current_date}', {$quantity}, {$user_id}, {$direction_id}, {$product_id}, '{$origin}');";
+		$queryInsert = "INSERT INTO ordered(date, quantity, user_id, direction, product_id, origin) VALUES ('{$current_date}', {$quantity}, {$user_id}, '{$direction_id}', {$product_id}, '{$origin}');";
 		$result = $mysqli->query($queryInsert);
 
 		if (!$result)
